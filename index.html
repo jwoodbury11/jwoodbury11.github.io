@@ -11,19 +11,49 @@
       align-items: center;
       height: 100vh;
       margin: 0;
+      position: relative;
+      overflow: hidden;
     }
     button {
       font-size: 24px;
       padding: 4px 10px;
       border-radius: 12px;
+      cursor: pointer;
+      z-index: 1;
+      position: relative;
+    }
+    .floating-text {
+      font-size: 24px;
+      position: absolute;
+      opacity: 1;
+      transform: translateY(0);
+      transition: transform 4s;
     }
   </style>
 </head>
 <body>
   <button id="jimmy">Jimmy</button>
   <script>
-    document.getElementById("jimmy").addEventListener("click", () => {
-      alert("Button clicked!");
+    const jimmyButton = document.getElementById("jimmy");
+
+    function createFloatingText() {
+      const floatingText = document.createElement("div");
+      floatingText.classList.add("floating-text");
+      floatingText.textContent = "AI + Jimmy sitting in a tree";
+      floatingText.style.left = (jimmyButton.offsetLeft - 50) + "px";
+      floatingText.style.top = (jimmyButton.offsetTop - 30) + "px";
+      document.body.appendChild(floatingText);
+      return floatingText;
+    }
+
+    jimmyButton.addEventListener("click", () => {
+      const floatingText = createFloatingText();
+      setTimeout(() => {
+        floatingText.style.transform = "translateY(-120vh)";
+      }, 100);
+      setTimeout(() => {
+        document.body.removeChild(floatingText);
+      }, 4000);
     });
   </script>
 </body>
